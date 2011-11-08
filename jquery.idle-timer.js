@@ -129,8 +129,8 @@ $.idleTimer = function(newTimeout, elem){
         // and then append that string to a namespace
         var event = jQuery.Event( $.data(elem,'idleTimer', obj.idle ? "idle" : "active" )  + '.idleTimer'   );
 
-        // we dont want this to bubble
-        event.stopPropagation();
+        // we do want this to bubble, at least as a temporary fix for jQuery 1.7
+        // event.stopPropagation();
         $(elem).trigger(event);
     },
 
@@ -152,7 +152,7 @@ $.idleTimer = function(newTimeout, elem){
         clearTimeout(obj.tId);
 
         //detach the event handlers
-        $(elem).unbind('.idleTimer');
+        $(elem).off('.idleTimer');
     },
 
 
@@ -211,7 +211,7 @@ $.idleTimer = function(newTimeout, elem){
     }
 
     //assign appropriate event handlers
-    $(elem).bind($.trim((events+' ').split(' ').join('.idleTimer ')),handleUserEvent);
+    $(elem).on($.trim((events+' ').split(' ').join('.idleTimer ')),handleUserEvent);
 
 
     obj.idle    = idle;
