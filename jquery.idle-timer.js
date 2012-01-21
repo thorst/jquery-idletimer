@@ -143,7 +143,7 @@ $.idleTimer = function(newTimeout, elem){
      */
     stop = function(elem){
 
-        var obj = $.data(elem,'idleTimerObj');
+        var obj = $.data(elem,'idleTimerObj') || {};
 
         //set to disabled
         obj.enabled = false;
