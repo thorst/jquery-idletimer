@@ -60,4 +60,12 @@ $.data(elem,'idleTimer');  // 'idle'  or 'active'
 // you may just want page-level activity, in which case you may set up
 //   your timers on document, document.documentElement, and document.body
 
-
+// You can optionally provide a second argument to override certain options, one
+// of which is the events that are considered to constitute activity.
+// Here are the defaults, so you can omit any or all of them.
+$(elem).idleTimer(timeout, {
+  startImmediately: true, //starts a timeout as soon as the timer is set up; otherwise it waits for the first event.
+  idle:    false,         //indicates if the user is idle
+  enabled: true,          //indicates if the idle timer is enabled
+  events:  'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove' // activity is one of these events
+});
