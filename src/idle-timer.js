@@ -154,7 +154,7 @@ $.fn.idleTimer = function( firstParam, opts ) {
 	}
 
 	if ( this[0] ){
-		$.idleTimer( firstParam, this[0], opts );
+		return $.idleTimer( firstParam, this[0], opts );
 	}
 
 	return this;

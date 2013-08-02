@@ -54,4 +54,11 @@
 		});
 	});
 
+	test( "Elapsed time is a number", function() {
+		expect( 2 );
+
+		equal( typeof $.idleTimer( "getElapsedTime" ), "number", "Elapsed time should be a number" );
+		equal( typeof $(document).idleTimer( "getElapsedTime" ), "number", "Elapsed time should be a number" );
+	});
+
 }(jQuery));
