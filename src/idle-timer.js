@@ -114,22 +114,28 @@ $.idleTimer = function( firstParam, elem, opts ) {
 	 * @return {void}
 	 */
 	jqElem.on( $.trim( ( opts.events + " " ).split(" ").join(".idleTimer ") ), function() {
-		var obj = $.data( this, "idleTimerObj" );
+    var obj = $.data(this,'idleTimerObj');
 
-		//clear any existing timeout
-		clearTimeout( obj.tId );
+    if (event.type !== 'mousemove' ||
+            event.pageX != obj.pageX || 
+            event.pageY != obj.pageY) {
+        obj.pageX = event.pageX;
+        obj.pageY = event.pageY;
 
-		//if the idle timer is enabled
-		if ( obj.enabled ){
-			//if it's idle, that means the user is no longer idle
-			if ( obj.idle ){
-				toggleIdleState( this );
-			}
+        //clear any existing timeout
+        clearTimeout(obj.tId);
 
-			//set a new timeout
-			obj.tId = setTimeout( toggleIdleState, obj.timeout );
-		}
-	});
+        //if the idle timer is enabled
+        if (obj.enabled) {
+            //if it's idle, that means the user is no longer idle
+            if (obj.idle){
+                toggleIdleState(this);
+            }
+            //set a new timeout
+            obj.tId = setTimeout(toggleIdleState, obj.timeout);
+        }
+    }
+  });
 
 	obj.idle = opts.idle;
 	obj.enabled = opts.enabled;
