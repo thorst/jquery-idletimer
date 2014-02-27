@@ -1,6 +1,15 @@
 jQuery Idle Timer Plugin
 ========================
 
+
+Fork
+--------
+This fork 
+* Updates jQuery
+* Defaults document monitoring to idel=true
+* Fixes startImmediately
+* Stops event propegation on textarea
+
 Download
 --------
 * https://raw.github.com/mikesherov/jquery-idletimer/master/dist/idle-timer.min.js
