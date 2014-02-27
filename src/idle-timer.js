@@ -24,6 +24,9 @@
 
 $.idleTimer = function( firstParam, elem, opts ) {
 
+	elem = elem || document;
+	if (elem == document && typeof opts.idle == "undefined") opts.idle = true;
+	
 	// defaults that are to be stored as instance props on the elem
 	opts = $.extend( {
 		startImmediately: true,   //starts a timeout as soon as the timer is set up
@@ -34,7 +37,7 @@ $.idleTimer = function( firstParam, elem, opts ) {
 	}, opts );
 
 
-	elem = elem || document;
+	
 
 	var jqElem = $( elem ),
 		obj = jqElem.data("idleTimerObj") || {},
@@ -137,7 +140,7 @@ $.idleTimer = function( firstParam, elem, opts ) {
 
 	//set a timeout to toggle state. May wish to omit this in some situations
 	if ( opts.startImmediately ) {
-		obj.tId = setTimeout( toggleIdleState, obj.timeout );
+		obj.tId = setTimeout(function () { $(elem).data("idleTimerObj").idle = false; toggleIdleState(elem); }, obj.timeout);
 	}
 
 	// assume the user is active for the first x seconds.
