@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Idle Timer Example</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/themes/smoothness/jquery-ui.css"/>
     
@@ -52,13 +52,15 @@
 
          var stimeout = 3000;
 
-         $('textarea').bind("idle.idleTimer", function(){
+         $('textarea').bind("idle.idleTimer", function(event){
+             event.stopPropagation();
               $('textarea').val(function(i,v){
                 return v + "textarea has been idle for "+ stimeout/1000 + ' seconds\n';
               }).css("backgroundColor", "silver");
          });
 
-         $('textarea').bind("active.idleTimer", function(){
+         $('textarea').bind("active.idleTimer", function(event){
+             event.stopPropagation();
             $('textarea').val(function(i,v){
                return v + "User is active, again! :D\n";
              }).css("backgroundColor", "yellow");
