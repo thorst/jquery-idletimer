@@ -36,7 +36,6 @@ $.idleTimer = function( firstParam, elem, opts ) {
 		events: "mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove" // activity is one of these events
 	}, opts );
 
-console.log(opts);
 	
 
 	var jqElem = $( elem ),
