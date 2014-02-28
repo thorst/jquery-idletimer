@@ -98,10 +98,12 @@
 
         $(document).bind("idle.idleTimer", function(){
             $("#status").html("User is idle").removeClass("alert-success").addClass("alert-warning");
+			console.log("document idle event " + Date());
         });
         
         $(document).bind("active.idleTimer", function(){
              $("#status").html("User is active").addClass("alert-success").removeClass("alert-warning");
+			 console.log("document active event " + Date());
         });
         
         $.idleTimer(timeout);
@@ -126,6 +128,7 @@
               $('textarea').val(function(i,v){
                 return v + "Textarea is idle \n";
               }).removeClass("alert-success").addClass("alert-warning");
+			  console.log("textarea idle event " + Date());
          });
 
          $('textarea').bind("active.idleTimer", function(event){
@@ -133,6 +136,7 @@
             $('textarea').val(function(i,v){
                return v + "Textarea is active \n";
              }).addClass("alert-success").removeClass("alert-warning");
+			 console.log("textarea idle event " + Date());
          });
 
          $('textarea').val('').idleTimer(stimeout);
