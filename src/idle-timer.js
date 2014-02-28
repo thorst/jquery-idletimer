@@ -25,7 +25,7 @@
 $.idleTimer = function( firstParam, elem, opts ) {
 
 	elem = elem || document;
-	if (elem == document && (typeof opts != "undefined" || typeof opts.idle == "undefined")) $.extend( {idle:true}, opts );;
+	if (elem == document && (typeof opts == "undefined" || typeof opts.idle == "undefined")) $.extend( {idle:true}, opts );;
 	
 	// defaults that are to be stored as instance props on the elem
 	opts = $.extend( {
