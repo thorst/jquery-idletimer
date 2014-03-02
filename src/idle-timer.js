@@ -68,7 +68,7 @@
                 var elapsed = (+new Date()) - obj.olddate;
                 obj.olddate = +new Date();
 
-                // handle Chrome always triggering idle after js alert or comfirm popup
+                // handle Chrome always triggering idle after js alert or comfirm popup, not happening in Version 33.0.1750.117 m, confirm?
                 if (obj.idle && (elapsed < obj.timeout)) {
                     obj.idle = false;
                     clearTimeout($.idleTimer.tId);
