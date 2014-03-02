@@ -233,7 +233,7 @@
         }
 
         // assume the user is active for the first x seconds.
-        jqElem.data("idleTimer", "active");
+        jqElem.data("idleTimer", obj.idle ? "idle" : "active");
 
         // store our instance on the object
         jqElem.data("idleTimerObj", obj);
