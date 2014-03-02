@@ -113,9 +113,13 @@
              * @static
              */
             reset = function (jqElem) {
+
+                var obj = jqElem.data("idleTimerObj") || {};
+
                 //Reset settings
                 obj.idle = obj.idleBackup;
-                obj.enabled = opts.enabledBackup;
+                obj.enabled = obj.enabledBackup;
+
 
                 //Reset Timers
                 clearTimeout(obj.tId);
