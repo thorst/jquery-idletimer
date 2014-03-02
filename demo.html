@@ -17,6 +17,12 @@
         body {
             margin-top: 40px;
         }
+        .btn {
+            padding: 5px 6px;
+        }
+        h3 {
+             height: 30px;
+        }
     </style>
 </head>
 
@@ -55,19 +61,20 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h3 style="height: 30px;">Document <small><span id="docTimeout"></span>second timeout</small></h3>
+                <h3>Document <small><span id="docTimeout"></span> second timeout</small></h3>
                 <textarea rows="10" cols="30" id="docStatus" class="form-control"></textarea><br />
             </div>
             <div class="col-md-6">
-                <h3 style="height: 30px;">
+                <h3>
                     Element 
-                    <small><span id="elTimeout"></span>second timeout</small>
+                    <small><span id="elTimeout"></span> second timeout</small>
                     <div class="btn-group">
                         <a href="#" id="btPause" class="btn btn-default btn-sm">Pause</a>
                         <a href="#" id="btResume" class="btn btn-default btn-sm">Resume</a>
                         <a href="#" id="btReset" class="btn btn-default btn-sm">Reset</a>
                         <a href="#" id="btElapsed" class="btn btn-default btn-sm">Elapsed</a>
                         <a href="#" id="btRemaining" class="btn btn-default btn-sm">Remaining</a>
+                        <a href="#" id="btState" class="btn btn-default btn-sm">State</a>
                     </div>
                 </h3>
                 <textarea rows="10" cols="30" id="elStatus" class="form-control"></textarea><br />
@@ -251,7 +258,15 @@
                     .scrollToBottom();
                 return false;
             });
-
+            $("#btState").click(function () {
+                $('#elStatus')
+                    .val(function (i, v) {
+                        return v + "State: " + $("#elStatus").data("idleTimer") + " \n";
+                    })
+                    .scrollToBottom();
+                return false;
+            });
+            
             //Clear value if there was one cached & start time
             $('#elStatus').val('').idleTimer(taTimeout, taOptions);
 
