@@ -56,15 +56,20 @@ $( document ).data("idleTimer");
 $( document ).idleTimer("getElapsedTime");
 
 // bind to specific elements, allows for multiple timer instances
-$( elem ).idleTimer( timeout|"destroy"|"getElapsedTime");
+$( elem ).idleTimer( timeout|"destroy"|"pause"|"resume"|"reset"|"getRemainingTime"|"getElapsedTime");
 $( elem ).data("idleTimer");
+
+//"reset" will restore idle and enabled arguments, as well as restart the timer
+//"getRemainingTime" will return the time left until idle, if idle return 0
+//"getElapsedTime" will return the time since last switched states. So if you
+//  are idle, how have you been idle, if active, how long have you been active
 
 // You can optionally provide a second argument to override certain options, one
 // of which is the events that are considered to constitute activity.
 // Here are the defaults, so you can omit any or all of them.
 $( elem ).idleTimer( timeout, {
   startImmediately: true, // starts a timeout as soon as the timer is set up; otherwise it waits for the first event.
-  idle:    false,         // indicates if the user is idle
+  idle:    true,         // indicates if the user is idle
   enabled: true,          // indicates if the idle timer is enabled
   events:  'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove' // activity is one of these events
 });
@@ -72,6 +77,6 @@ $( elem ).idleTimer( timeout, {
 
 Gotchas
 -------
-
+* idle is not defaulted to true
 * If you're using the old $.idleTimer api, you should not do `$( document ).idleTimer(...)`.
 * Element bound timers will only watch for events inside of them. You may just want page-level activity, in which case you may set up your timers on `document`, `document.documentElement`, and `document.body`.
