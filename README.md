@@ -53,16 +53,25 @@ $( document ).idleTimer("destroy");
 $( document ).data("idleTimer");
 
 // get time elapsed (in ms) since the user went idle/active
+$( document ).idleTimer("pause");
+
+// get time elapsed (in ms) since the user went idle/active
+$( document ).idleTimer("resume");
+
+//restore idle and enabled arguments, as well as restart the timer
+$( document ).idleTimer("reset");
+
+// get time left until idle, if idle return 0
+$( document ).idleTimer("getRemainingTime");
+
+// get time elapsed (in ms) since the user went idle/active
+// if idle, how have you been idle, if active, how long have you been active
 $( document ).idleTimer("getElapsedTime");
 
 // bind to specific elements, allows for multiple timer instances
 $( elem ).idleTimer( timeout|"destroy"|"pause"|"resume"|"reset"|"getRemainingTime"|"getElapsedTime");
 $( elem ).data("idleTimer");
 
-//"reset" will restore idle and enabled arguments, as well as restart the timer
-//"getRemainingTime" will return the time left until idle, if idle return 0
-//"getElapsedTime" will return the time since last switched states. So if you
-//  are idle, how have you been idle, if active, how long have you been active
 
 // You can optionally provide a second argument to override certain options, one
 // of which is the events that are considered to constitute activity.
