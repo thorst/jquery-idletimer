@@ -86,6 +86,6 @@ $( elem ).idleTimer( timeout, {
 
 Gotchas
 -------
-* idle is not defaulted to true
+* idle is now defaulted to true
 * If you're using the old $.idleTimer api, you should not do `$( document ).idleTimer(...)`.
 * Element bound timers will only watch for events inside of them. You may just want page-level activity, in which case you may set up your timers on `document`, `document.documentElement`, and `document.body`.
