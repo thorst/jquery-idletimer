@@ -29,7 +29,7 @@
         // defaults that are to be stored as instance props on the elem
         opts = $.extend({
             startImmediately: true, //starts a timeout as soon as the timer is set up
-            idle: true,             //indicates if the user is idle
+            idle: false,             //indicates if the user is idle
             enabled: true,          //indicates if the idle timer is enabled
             timeout: 30000,         //the amount of time (ms) before the user is considered idle
             events: "mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove" // activity is one of these events
@@ -37,11 +37,11 @@
 
         /*
         Internal Object Properties
-            remaining: null,        //the remaining time left when paused
-            olddate: null,          //the last time timer was active/idle
-            tId: null,              //the idle timer setTimeout
-            idleBackup: true,       //backup of idle parameter since it gets modified
-            enabledBackup: true     //backup of enabled parameter since it gets modified
+            remaining: null,            //the remaining time left when paused
+            olddate: null,              //the last time timer was active/idle
+            tId: null,                  //the idle timer setTimeout
+            idleBackup: opts.idle,      //backup of idle parameter since it gets modified
+            enabledBackup: opts.enabled //backup of enabled parameter since it gets modified
         */
 
 
@@ -68,13 +68,23 @@
                 var elapsed = (+new Date()) - obj.olddate;
                 obj.olddate = +new Date();
 
-                // handle Chrome always triggering idle after js alert or comfirm popup, not happening in Version 33.0.1750.117 m, confirm?
+                // handle Chrome always triggering idle after js alert or comfirm popup,
+                // not happening in Version 33.0.1750.117 m desktop win7               
                 if (obj.idle && (elapsed < obj.timeout)) {
                     obj.idle = false;
                     clearTimeout($.idleTimer.tId);
                     if (obj.enabled) {
                         $.idleTimer.tId = setTimeout(toggleIdleState, obj.timeout);
                     }
+                    return;
+                }
+
+                // Chrome 33.0.1750.14 on ios7 7.0.4 ipad triggers mousemove after programmatically updating 
+                // text area. ranges between 115 - 150 milliseconds after idle triggered. 
+                // When using normally your timing would have to be really good to respond
+                // in under 200 ms, and you would have to stop, as continues activity will bypass this
+                if (!obj.idle && elapsed < 200) {
+                    obj.idle = true;
                     return;
                 }
 
@@ -120,6 +130,7 @@
                 obj.idle = obj.idleBackup;
                 obj.enabled = obj.enabledBackup;
 
+                obj.olddate =  +new Date();
 
                 //Reset Timers
                 clearTimeout(obj.tId);
@@ -137,10 +148,14 @@
                 var obj = jqElem.data("idleTimerObj") || {};
                 if (obj.remaining!=null) return;
 
+                obj.remaining = obj.timeout - ((+new Date()) - obj.olddate);
+                if (obj.idle || obj.remaining <= 0) {
+                    obj.remaining = null;
+                    return
+                }
+
                 //clear any existing timeout
                 clearTimeout(obj.tId);
-
-                obj.remaining = obj.timeout - ((+new Date()) - obj.olddate);
 
             },
             /**
@@ -216,7 +231,8 @@
          * @param {Event} event A DOM2-normalized event object.
          * @return {void}
          */
-        jqElem.on($.trim((opts.events + " ").split(" ").join(".idleTimer ")), function () {
+        jqElem.on($.trim((opts.events + " ").split(" ").join(".idleTimer ")), function (e) {
+            //console.log(e.type);//get the event that was triggered
             event($(this));
         });
 
