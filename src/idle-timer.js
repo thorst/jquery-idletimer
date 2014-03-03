@@ -201,6 +201,7 @@
             };
 
         obj.olddate = obj.olddate || +new Date();
+        obj.lastActive = obj.olddate;
 
         if (typeof firstParam === "number") {
             opts.timeout = firstParam;
