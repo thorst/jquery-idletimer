@@ -4,6 +4,7 @@
 <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Jquery-idletimer : provides you a way to monitor user activity with a page." />
     <title>Jquery-idletimer</title>
 
@@ -16,6 +17,7 @@
     <style>
         body {
             margin-top: 40px;
+            margin-bottom: 40px;
         }
         .btn {
             padding: 5px 6px;
@@ -81,6 +83,7 @@
             </div>
         </div>
 
+        <h3>Dialogs</h3>
         <!-- Button trigger modal -->
         <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             Launch modal
@@ -102,7 +105,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -158,7 +160,29 @@
 
             //Start timeout, passing no options
             //Same as $(document).idleTimer(docTimeout);
-            $.idleTimer(docTimeout);
+            $(document).idleTimer(docTimeout);
+
+            //For demo purposes, get obj data and style
+            //output accordingly
+            var obj = $(document).data("idleTimerObj");
+            if (obj.idle) {
+                $("#docStatus")
+                  .val(function (i, v) {
+                      return v + "Idle @ " + new Date() + " \n";
+                  })
+                  .removeClass("alert-success")
+                  .addClass("alert-warning")
+                  .scrollToBottom();
+            } else {
+                $('#docStatus')
+                    .val(function (i, v) {
+                        return v + "Active @ " + new Date() + " \n";
+                    })
+                    .addClass("alert-success")
+                    .removeClass("alert-warning")
+                    .scrollToBottom();
+            }
+            
 
             // Display the actual timeout on the page
             $('#docTimeout').text(docTimeout / 1000);
@@ -214,14 +238,24 @@
             Handle button events
             */
             $("#btReset").click(function () {
+                var obj = $("#elStatus").data("idleTimerObj");
+               
                 $('#elStatus')
                     .idleTimer("reset")
                     .val(function (i, v) {
                         return v + "Reset @ " + new Date() + " \n";
                     })
-                    .removeClass("alert-success")
-                    .removeClass("alert-warning")
                     .scrollToBottom();
+
+                //Apply classes for default state
+                if (obj.idleBackup)
+                    $('#elStatus')
+                        .removeClass("alert-success")
+                        .addClass("alert-warning");
+                else
+                    $('#elStatus')
+                        .addClass("alert-success")
+                        .removeClass("alert-warning");
                 return false;
             });
             $("#btPause").click(function () {
@@ -269,6 +303,27 @@
             
             //Clear value if there was one cached & start time
             $('#elStatus').val('').idleTimer(taTimeout, taOptions);
+
+            //For demo purposes, get obj data and style
+            //output accordingly
+            var obj = $("#elStatus").data("idleTimerObj");
+            if (obj.idle) {
+                $("#elStatus")
+                  .val(function (i, v) {
+                      return v + "Idle @ " + new Date() + " \n";
+                  })
+                  .removeClass("alert-success")
+                  .addClass("alert-warning")
+                  .scrollToBottom();
+            } else {
+                $('#elStatus')
+                    .val(function (i, v) {
+                        return v + "Active @ " + new Date() + " \n";
+                    })
+                    .addClass("alert-success")
+                    .removeClass("alert-warning")
+                    .scrollToBottom();
+            }
 
             // Display the actual timeout on the page
             $('#elTimeout').text(taTimeout / 1000);
