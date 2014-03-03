@@ -64,6 +64,7 @@
 
                 //toggle the state
                 obj.idle = !obj.idle;
+                if (obj.idle) obj.lastActive = obj.olddate;
 
                 // reset timeout
                 var elapsed = (+new Date()) - obj.olddate;
@@ -113,11 +114,8 @@
                         toggleIdleState(elem);
                     }
                     
-                    //Log the last active
-                    var o = +new Date();
-                    
                     //set a new timeout
-                    obj.tId = setTimeout(function () { obj.lastActive = o; toggleIdleState(elem); }, obj.timeout);
+                    obj.tId = setTimeout(function () { toggleIdleState(elem); }, obj.timeout);
                 }
             },
             /**
