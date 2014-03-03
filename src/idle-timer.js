@@ -114,10 +114,10 @@
                     }
                     
                     //Log the last active
-                    
+                    var o = +new Date();
                     
                     //set a new timeout
-                    obj.tId = setTimeout(function () { obj.lastActive = +new Date(); toggleIdleState(elem); }, obj.timeout);
+                    obj.tId = setTimeout(function () { obj.lastActive = o; toggleIdleState(elem); }, obj.timeout);
                 }
             },
             /**
