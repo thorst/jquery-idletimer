@@ -39,6 +39,7 @@
         Internal Object Properties
             remaining: null,            //the remaining time left when paused
             olddate: null,              //the last time timer was active/idle
+            lastActive: null,           //the last time timer was active
             tId: null,                  //the idle timer setTimeout
             idleBackup: opts.idle,      //backup of idle parameter since it gets modified
             enabledBackup: opts.enabled //backup of enabled parameter since it gets modified
@@ -111,7 +112,10 @@
                     if (obj.idle) {
                         toggleIdleState(elem);
                     }
-
+                    
+                    //Log the last active
+                    obj.lastActive = +new Date();
+                    
                     //set a new timeout
                     obj.tId = setTimeout(function () { toggleIdleState(elem); }, obj.timeout);
                 }
