@@ -64,7 +64,7 @@
 
                 //toggle the state
                 obj.idle = !obj.idle;
-                if (obj.idle) obj.lastActive = obj.olddate;
+                //if (obj.idle) obj.lastActive = obj.olddate;
 
                 // reset timeout
                 var elapsed = (+new Date()) - obj.olddate;
@@ -104,6 +104,9 @@
             event = function (jqElem) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
+
+                //store last active
+                obj.lastActive = +new Date();
 
                 //clear any existing timeout
                 clearTimeout(obj.tId);
