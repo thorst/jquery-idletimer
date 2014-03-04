@@ -34,7 +34,7 @@
 
 	//Function to help us determine which events to test
 	//http://perfectionkills.com/detecting-event-support-without-browser-sniffing/
-	var isEventSupported = (function(){
+	/*var isEventSupported = (function(){
 		var TAGNAMES = {
 			"select":"input","change":"input",
 			"submit":"form","reset":"form",
@@ -53,6 +53,7 @@
 		}
 		return isEventSupported;
 	})();
+	*/
 	
 	/*
 	mousewheel (deprecated) -> IE6.0, Chrome, Opera, Safari
@@ -98,19 +99,19 @@
 	Need to actually test pause/resume/reset, not just thier return type
 	*/
 	test( "Pause is a jQuery instance", function() {
-		expect( 2 );
+		expect( 1 );
 
 		//equal(typeof $.idleTimer( "pause" ).jquery  , "string", "Elapsed time should be a number" );
 		equal(typeof $(document).idleTimer( "pause" ).jquery  , "string", "Elapsed time should be a number" );
 	});
 	test( "Resume is a jQuery instance", function() {
-		expect( 2 );
+		expect( 1 );
 
 		//equal(typeof $.idleTimer( "resume" ).jquery  , "string", "Elapsed time should be a number" );
 		equal(typeof $(document).idleTimer( "resume" ).jquery  , "string", "Elapsed time should be a number" );
 	});
 	test( "Reset is a jQuery instance", function() {
-		expect( 2 );
+		expect( 1 );
 
 		//equal(typeof $.idleTimer( "reset" ).jquery  , "string", "Elapsed time should be a number" );
 		equal(typeof $(document).idleTimer( "reset" ).jquery  , "string", "Elapsed time should be a number" );
