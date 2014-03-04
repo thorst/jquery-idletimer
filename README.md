@@ -101,10 +101,10 @@ Intended Browser Support
 
 Author History
 -------
-* Nicholas C. Zakas (yui Version) (http://www.nczonline.net/blog/2009/06/02/detecting-if-the-user-is-idle-with-javascript-and-yui-3/) (https://github.com/nzakas/jstools/)
-* Paul Irish (jQuery Version) (http://paulirish.com/2009/jquery-idletimer-plugin/) (https://github.com/paulirish/jquery-idletimer/)
-* Mike Sherov (Fork of Paul's) (https://github.com/mikesherov/jquery-idletimer)
-* Todd Horst (Current Fork of Mike's) (https://github.com/thorst/jquery-idletimer)
+* Nicholas C. Zakas (yui Version) [Blog](http://www.nczonline.net/blog/2009/06/02/detecting-if-the-user-is-idle-with-javascript-and-yui-3/) [Github](https://github.com/nzakas/jstools/)
+* Paul Irish (jQuery Version) [Blog](http://paulirish.com/2009/jquery-idletimer-plugin/) [Github](https://github.com/paulirish/jquery-idletimer/)
+* Mike Sherov (Fork of Paul's) [Github](https://github.com/mikesherov/jquery-idletimer)
+* Todd Horst (Current Fork of Mike's) [Github](https://github.com/thorst/jquery-idletimer)
 
 
 Gotchas
