@@ -32,7 +32,7 @@
             idle: false,             //indicates if the user is idle
             enabled: true,          //indicates if the idle timer is enabled
             timeout: 30000,         //the amount of time (ms) before the user is considered idle
-            events: "mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove" // activity is one of these events
+            events: "mousemove keydown wheel DOMMouseScroll mousewheel mousedown touchstart touchmove MSPointerDown MSPointerMove" // activity is one of these events
         }, opts);
 
         /*
@@ -68,7 +68,7 @@
                 // reset timeout
                 var elapsed = (+new Date()) - obj.olddate;
                 obj.olddate = +new Date();
-                
+
                 // handle Chrome always triggering idle after js alert or comfirm popup,
                 // not happening in Version 33.0.1750.117 m desktop win7               
                 if (obj.idle && (elapsed < obj.timeout)) {
@@ -95,7 +95,7 @@
                 // create a custom event, but first, store the new state on the element
                 // and then append that string to a namespace
                 var event = $.Event($.data(elem, "idleTimer", obj.idle ? "idle" : "active") + ".idleTimer");
-                $(elem).trigger(event, [elem,obj]);
+                $(elem).trigger(event, [elem, obj]);
             },
             /**
              * Handle event triggers
@@ -103,7 +103,7 @@
              * @method event
              * @static
              */
-            handleEvent = function (jqElem,e) {
+            handleEvent = function (jqElem, e) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
 
@@ -149,7 +149,7 @@
                 obj.idle = obj.idleBackup;
                 obj.enabled = obj.enabledBackup;
 
-                obj.olddate =  +new Date();
+                obj.olddate = +new Date();
 
                 //Reset Timers
                 clearTimeout(obj.tId);
@@ -165,7 +165,7 @@
             pause = function (jqElem) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
-                if (obj.remaining!=null) {return;}
+                if (obj.remaining != null) { return; }
 
                 obj.remaining = obj.timeout - ((+new Date()) - obj.olddate);
                 if (obj.idle || obj.remaining <= 0) {
@@ -186,7 +186,7 @@
             resume = function (jqElem) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
-                if (obj.remaining==null) {return;}
+                if (obj.remaining == null) { return; }
 
                 //start timer
                 obj.tId = setTimeout(toggleIdleState, obj.remaining);
@@ -233,11 +233,11 @@
             return;
         } else if (firstParam === "getRemainingTime") {
             //If idle there is no time remaining
-            if (obj.idle) {return 0;}
+            if (obj.idle) { return 0; }
 
             //Determing remaining, if negative idle didnt finish flipping, just return 0
-            var remaining =obj.timeout - ((+new Date()) - obj.olddate);
-            if (remaining < 0) {remaining = 0;}
+            var remaining = obj.timeout - ((+new Date()) - obj.olddate);
+            if (remaining < 0) { remaining = 0; }
 
             //If this is paused return that number, else return current remaining
             return obj.remaining || remaining;
@@ -248,14 +248,26 @@
         }
 
 
+        /*
+            Remove old wheel events if wheel is supported.
+            To test for wheel this works in chrome/firefox:("onwheel" in document.createElement("div"))
+            >=IE9 wheel works, but as of IE11 you still cannot test for it properly, try:document.implementation.hasFeature("Events.wheel", "3.0")
+        */
+        var listenEvents = $.trim((opts.events + " ")).split(" ");
+        if ($.inArray("wheel", listenEvents) && (("onwheel" in document.createElement("div")) || document.implementation.hasFeature("Events.wheel", "3.0"))) {
+            listenEvents = $.grep(listenEvents, function (n) {
+                return (n !== "DOMMouseScroll" && n !== "mousewheel");
+            });
+        }
+
         /* (intentionally not documented)
          * Handles a user event indicating that the user isn't idle.
          * @param {Event} event A DOM2-normalized event object.
          * @return {void}
          */
-        jqElem.on($.trim((opts.events + " ").split(" ").join(".idleTimer ")), function (e) {
+        jqElem.on(listenEvents.join(".idleTimer "), function (e) {
             //console.log(e.type);//get the event that was triggered
-            handleEvent($(this),e);
+            handleEvent($(this), e);
         });
 
         //Assign options to obj to be stored
@@ -284,12 +296,12 @@
         }
 
         if (this[0]) {
-            var result =$.idleTimer(firstParam, this[0], opts);
-            if (typeof result==="number") {
+            var result = $.idleTimer(firstParam, this[0], opts);
+            if (typeof result === "number") {
                 return result;
             } else {
                 return this;
-			}
+            }
         }
 
         return this;

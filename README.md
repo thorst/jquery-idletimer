@@ -96,7 +96,7 @@ Intended Browser Support
 ####Mobile
 * iOS n-1
 * Android (version?)
-* Windows Phone (version?)
+* Windows Phone IEMobile/10.0
 
 
 Author History

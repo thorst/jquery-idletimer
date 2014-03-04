@@ -20,6 +20,7 @@
 
 	module("jQuery#idle-timer");
 
+	
 	asyncTest( "default behavior", function() {
 		expect( 1 );
 
@@ -31,8 +32,44 @@
 		$.idleTimer( 100 );
 	});
 
-	//Ignore mousemove since that is buggy and we stop based on coord
-	$.each( ["keydown", "DOMMouseScroll", "mousewheel", "mousedown", "touchstart", "touchmove"], function( i, event ) {
+	//Function to help us determine which events to test
+	//http://perfectionkills.com/detecting-event-support-without-browser-sniffing/
+	var isEventSupported = (function(){
+		var TAGNAMES = {
+		  'select':'input','change':'input',
+		  'submit':'form','reset':'form',
+		  'error':'img','load':'img','abort':'img'
+		}
+		function isEventSupported(eventName) {
+		  var el = document.createElement(TAGNAMES[eventName] || 'div');
+		  eventName = 'on' + eventName;
+		  var isSupported = (eventName in el);
+		  if (!isSupported) {
+			el.setAttribute(eventName, 'return;');
+			isSupported = typeof el[eventName] == 'function';
+		  }
+		  el = null;
+		  return isSupported;
+		}
+		return isEventSupported;
+	 })();
+	
+	/*
+	mousewheel (deprecated) -> IE6.0, Chrome, Opera, Safari
+	DOMMouseScroll (deprecated) -> Firefox 1.0
+	wheel (standard) -> Chrome 31, Firefox 17, IE9, Firefox Mobile 17.0
+	
+	//No need to use, use DOMMouseScroll
+	MozMousePixelScroll -> Firefox 3.5, Firefox Mobile 1.0
+	
+	//Events
+	WheelEvent -> see wheel
+	MouseWheelEvent -> see mousewheel
+	MouseScrollEvent -> Firefox 3.5, Firefox Mobile 1.0
+	*/
+	$.each( ["keydown", "mousemove", "mousewheel", "DOMMouseScroll", "wheel", "mousedown", "touchstart", "touchmove"], function( i, event ) {
+		console.log(event+ ":" + isEventSupported(event));
+		if (isEventSupported(event)) {
 		asyncTest( "Should clear timeout on " + event, function() {
 			expect( 3 );
 
@@ -53,6 +90,7 @@
 
 			$( "#qunit-fixture" ).idleTimer( 500 );
 		});
+		}
 	});
 
 	test( "Elapsed time is a number", function() {
