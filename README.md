@@ -14,15 +14,12 @@ Download
 Purpose
 -------
 
-Paul Irish's original blog post: http://paulirish.com/2009/jquery-idletimer-plugin/
-
 Fires a custom event when the user is "idle". Idle is defined by not...
 
 * moving the mouse
 * scrolling the mouse wheel
 * using the keyboard
 
-Basic idea is presented here: http://www.nczonline.net/blog/2009/06/02/detecting-if-the-user-is-idle-with-javascript-and-yui-3/
 
 Usage
 -----
@@ -38,11 +35,11 @@ $( document ).idleTimer();
 // timeout is in milliseconds; defaults to 30000
 $( document ).idleTimer( 10000 );
 
-$( document ).on( "idle.idleTimer", function(){
+$( document ).on( "idle.idleTimer", function(event, elem, obj){
  // function you want to fire when the user goes idle
 });
 
-$( document ).on( "active.idleTimer", function(){
+$( document ).on( "active.idleTimer", function(event, elem, obj){
  // function you want to fire when the user becomes active again
 });
 
@@ -68,6 +65,10 @@ $( document ).idleTimer("getRemainingTime");
 // if idle, how have you been idle, if active, how long have you been active
 $( document ).idleTimer("getElapsedTime");
 
+// get time last active event fired
+$( document ).idleTimer("getLastActiveTime");
+
+
 // bind to specific elements, allows for multiple timer instances
 $( elem ).idleTimer( timeout|"destroy"|"pause"|"resume"|"reset"|"getRemainingTime"|"getElapsedTime");
 $( elem ).data("idleTimer");
@@ -86,15 +87,24 @@ $( elem ).idleTimer( timeout, {
 
 Intended Browser Support
 -------
+####Desktop
+* >=IE8
+* Firefox n-1
+* Chrome n-1
+* Safari n
 
->=IE8
-Firefox n-1
-Chrome n-1
-Safari n
+####Mobile
+* iOS n-1
+* Android (version?)
+* Windows Phone (version?)
 
-iOS n-1
-Android (version?)
-Windows Phone (version?)
+
+Author History
+-------
+* Nicholas C. Zakas (yui Version) (http://www.nczonline.net/blog/2009/06/02/detecting-if-the-user-is-idle-with-javascript-and-yui-3/) (https://github.com/nzakas/jstools/)
+* Paul Irish (jQuery Version) (http://paulirish.com/2009/jquery-idletimer-plugin/) (https://github.com/paulirish/jquery-idletimer/)
+* Mike Sherov (Fork of Paul's) (https://github.com/mikesherov/jquery-idletimer)
+* Todd Horst (Current Fork of Mike's) (https://github.com/thorst/jquery-idletimer)
 
 
 Gotchas
