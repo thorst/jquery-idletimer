@@ -1,6 +1,11 @@
 jQuery Idle Timer Plugin
 ========================
 
+
+Demo
+--------
+http://thorst.github.io/jquery-idletimer/
+
 Download
 --------
 * https://raw.github.com/mikesherov/jquery-idletimer/master/dist/idle-timer.min.js
@@ -47,26 +52,52 @@ $( document ).idleTimer("destroy");
 // you can also query if it's "idle" or "active"
 $( document ).data("idleTimer");
 
+// save remaining time, and stops the timer
+$( document ).idleTimer("pause");
+
+// starts timer with remaining time
+$( document ).idleTimer("resume");
+
+//restore idle and enabled arguments, as well as restart the timer
+$( document ).idleTimer("reset");
+
+// get time left until idle, if idle return 0
+$( document ).idleTimer("getRemainingTime");
+
 // get time elapsed (in ms) since the user went idle/active
+// if idle, how have you been idle, if active, how long have you been active
 $( document ).idleTimer("getElapsedTime");
 
 // bind to specific elements, allows for multiple timer instances
-$( elem ).idleTimer( timeout|"destroy"|"getElapsedTime");
+$( elem ).idleTimer( timeout|"destroy"|"pause"|"resume"|"reset"|"getRemainingTime"|"getElapsedTime");
 $( elem ).data("idleTimer");
+
 
 // You can optionally provide a second argument to override certain options, one
 // of which is the events that are considered to constitute activity.
 // Here are the defaults, so you can omit any or all of them.
 $( elem ).idleTimer( timeout, {
   startImmediately: true, // starts a timeout as soon as the timer is set up; otherwise it waits for the first event.
-  idle:    false,         // indicates if the user is idle
+  idle:    true,          // indicates if the user is idle
   enabled: true,          // indicates if the idle timer is enabled
   events:  'mousemove keydown DOMMouseScroll mousewheel mousedown touchstart touchmove' // activity is one of these events
 });
 ```
 
-Gotchas
+Intended Browser Support
 -------
 
+>=IE8
+Firefox n-1
+Chrome n-1
+Safari n
+
+iOS n-1
+Android (version?)
+Windows Phone (version?)
+
+
+Gotchas
+-------
 * If you're using the old $.idleTimer api, you should not do `$( document ).idleTimer(...)`.
 * Element bound timers will only watch for events inside of them. You may just want page-level activity, in which case you may set up your timers on `document`, `document.documentElement`, and `document.body`.
