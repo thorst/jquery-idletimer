@@ -111,7 +111,7 @@
                 //This occurs:
                 //  Event mousemove always triggered always if using modal window (jquery for example, with overlay) on idle state.
                 //  When scrolling textarea to bottom (in demo) if textarea has enough content to scroll, and has focus, it will idle, then trigger mousemove
-                if (e.type == 'mousemove' && e.pageX == obj.pageX && e.pageY == obj.pageY) {
+                if (e.type === "mousemove" && e.pageX === obj.pageX && e.pageY === obj.pageY) {
                     return;
                 }
 
@@ -165,12 +165,12 @@
             pause = function (jqElem) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
-                if (obj.remaining!=null) return;
+                if (obj.remaining!=null) {return;}
 
                 obj.remaining = obj.timeout - ((+new Date()) - obj.olddate);
                 if (obj.idle || obj.remaining <= 0) {
                     obj.remaining = null;
-                    return
+                    return;
                 }
 
                 //clear any existing timeout
@@ -186,7 +186,7 @@
             resume = function (jqElem) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
-                if (obj.remaining==null) return;
+                if (obj.remaining==null) {return;}
 
                 //start timer
                 obj.tId = setTimeout(toggleIdleState, obj.remaining);
@@ -233,11 +233,11 @@
             return;
         } else if (firstParam === "getRemainingTime") {
             //If idle there is no time remaining
-            if (obj.idle) return 0;
+            if (obj.idle) {return 0;}
 
             //Determing remaining, if negative idle didnt finish flipping, just return 0
             var remaining =obj.timeout - ((+new Date()) - obj.olddate);
-            if (remaining < 0) remaining = 0;
+            if (remaining < 0) {remaining = 0;}
 
             //If this is paused return that number, else return current remaining
             return obj.remaining || remaining;
@@ -285,10 +285,11 @@
 
         if (this[0]) {
             var result =$.idleTimer(firstParam, this[0], opts);
-            if (typeof result==="number") 
+            if (typeof result==="number") {
                 return result;
-            else
+            } else {
                 return this;
+			}
         }
 
         return this;

@@ -8,8 +8,8 @@ http://thorst.github.io/jquery-idletimer/
 
 Download
 --------
-* https://raw.github.com/mikesherov/jquery-idletimer/master/dist/idle-timer.min.js
-* https://raw.github.com/mikesherov/jquery-idletimer/master/dist/idle-timer.js
+* [Production 2.54kb](https://raw.github.com/thorst/jquery-idletimer/master/dist/idle-timer.min.js)
+* [Development 10.3kb](https://raw.github.com/thorst/jquery-idletimer/master/dist/idle-timer.js)
 
 Purpose
 -------
