@@ -80,6 +80,17 @@
                     return;
                 }
 
+                // Chrome 33.0.1750.14/Safari on ios7 7.0.4 triggers mousemove after programmatically updating 
+                // text area (thus turning active). ranges between 115 - 150 milliseconds after idle triggered. 
+                // When using normally your timing would have to be really good to respond
+                // in under 200 ms, and you would have to stop, as continuous activity will bypass this
+                // The mousemove fix in handleEvent fixes the looping of mousemove, but it still can occur
+                // one time, so this prevents that initial time
+                if (!obj.idle && elapsed < 200) {
+                    obj.idle = true;
+                    return;
+                }
+
                 // create a custom event, but first, store the new state on the element
                 // and then append that string to a namespace
                 var event = $.Event($.data(elem, "idleTimer", obj.idle ? "idle" : "active") + ".idleTimer");
