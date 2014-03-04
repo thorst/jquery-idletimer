@@ -64,12 +64,11 @@
 
                 //toggle the state
                 obj.idle = !obj.idle;
-                //if (obj.idle) obj.lastActive = obj.olddate;
 
                 // reset timeout
                 var elapsed = (+new Date()) - obj.olddate;
                 obj.olddate = +new Date();
-
+                
                 // handle Chrome always triggering idle after js alert or comfirm popup,
                 // not happening in Version 33.0.1750.117 m desktop win7               
                 if (obj.idle && (elapsed < obj.timeout)) {
@@ -78,15 +77,6 @@
                     if (obj.enabled) {
                         $.idleTimer.tId = setTimeout(toggleIdleState, obj.timeout);
                     }
-                    return;
-                }
-
-                // Chrome 33.0.1750.14 on ios7 7.0.4 ipad triggers mousemove after programmatically updating 
-                // text area. ranges between 115 - 150 milliseconds after idle triggered. 
-                // When using normally your timing would have to be really good to respond
-                // in under 200 ms, and you would have to stop, as continues activity will bypass this
-                if (!obj.idle && elapsed < 200) {
-                    obj.idle = true;
                     return;
                 }
 
@@ -101,12 +91,17 @@
              * @method event
              * @static
              */
-            event = function (jqElem) {
+            handleEvent = function (jqElem,e) {
 
                 var obj = jqElem.data("idleTimerObj") || {};
 
-                //store last active
-                obj.lastActive = +new Date();
+                //If this is a mousemove but the mouse hasnt moved
+                //This occurs:
+                //  Event mousemove always triggered always if using modal window (jquery for example, with overlay) on idle state.
+                //  When scrolling textarea to bottom (in demo) if textarea has enough content to scroll, and has focus, it will idle, then trigger mousemove
+                if (e.type == 'mousemove' && e.pageX == obj.pageX && e.pageY == obj.pageY) {
+                    return;
+                }
 
                 //clear any existing timeout
                 clearTimeout(obj.tId);
@@ -116,7 +111,14 @@
                     if (obj.idle) {
                         toggleIdleState(elem);
                     }
-                    
+
+                    //store when user was last active
+                    obj.lastActive = +new Date();
+
+                    //Update mouse coord
+                    obj.pageX = e.pageX;
+                    obj.pageY = e.pageY;
+
                     //set a new timeout
                     obj.tId = setTimeout(function () { toggleIdleState(elem); }, obj.timeout);
                 }
@@ -239,7 +241,7 @@
          */
         jqElem.on($.trim((opts.events + " ").split(" ").join(".idleTimer ")), function (e) {
             //console.log(e.type);//get the event that was triggered
-            event($(this));
+            handleEvent($(this),e);
         });
 
         //Assign options to obj to be stored
