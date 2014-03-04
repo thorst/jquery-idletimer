@@ -94,11 +94,28 @@
 	*/
 	
 	/*
-	The following functions are not being tested yet
-	$( document ).idleTimer("pause");
-	$( document ).idleTimer("resume");
-	$( document ).idleTimer("reset");
+	Why is shorthand failing?
+	Need to actually test pause/resume/reset, not just thier return type
 	*/
+	test( "Pause is a jQuery instance", function() {
+		expect( 2 );
+
+		//equal(typeof $.idleTimer( "pause" ).jquery  , "string", "Elapsed time should be a number" );
+		equal(typeof $(document).idleTimer( "pause" ).jquery  , "string", "Elapsed time should be a number" );
+	});
+	test( "Resume is a jQuery instance", function() {
+		expect( 2 );
+
+		//equal(typeof $.idleTimer( "resume" ).jquery  , "string", "Elapsed time should be a number" );
+		equal(typeof $(document).idleTimer( "resume" ).jquery  , "string", "Elapsed time should be a number" );
+	});
+	test( "Reset is a jQuery instance", function() {
+		expect( 2 );
+
+		//equal(typeof $.idleTimer( "reset" ).jquery  , "string", "Elapsed time should be a number" );
+		equal(typeof $(document).idleTimer( "reset" ).jquery  , "string", "Elapsed time should be a number" );
+	});
+	
 	
 	test( "Elapsed time is a number", function() {
 		expect( 2 );
