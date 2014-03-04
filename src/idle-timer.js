@@ -253,7 +253,7 @@
          * @param {Event} event A DOM2-normalized event object.
          * @return {void}
          */
-        jqElem.on(listenEvents.join(".idleTimer "), function (e) {
+        jqElem.on($.trim((opts.events + " ").split(" ").join(".idleTimer ")), function (e) {
             //console.log(e.type);//get the event that was triggered
             handleEvent($(this), e);
         });

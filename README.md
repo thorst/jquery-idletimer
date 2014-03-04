@@ -70,7 +70,7 @@ $( document ).idleTimer("getLastActiveTime");
 
 
 // bind to specific elements, allows for multiple timer instances
-$( elem ).idleTimer( timeout|"destroy"|"pause"|"resume"|"reset"|"getRemainingTime"|"getElapsedTime");
+$( elem ).idleTimer( timeout|"destroy"|"pause"|"resume"|"reset"|"getRemainingTime"|"getElapsedTime"|"getLastActiveTime");
 $( elem ).data("idleTimer");
 
 

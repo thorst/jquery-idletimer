@@ -36,23 +36,23 @@
 	//http://perfectionkills.com/detecting-event-support-without-browser-sniffing/
 	var isEventSupported = (function(){
 		var TAGNAMES = {
-		  'select':'input','change':'input',
-		  'submit':'form','reset':'form',
-		  'error':'img','load':'img','abort':'img'
-		}
+			"select":"input","change":"input",
+			"submit":"form","reset":"form",
+			"error":"img","load":"img","abort":"img"
+		};
 		function isEventSupported(eventName) {
-		  var el = document.createElement(TAGNAMES[eventName] || 'div');
-		  eventName = 'on' + eventName;
-		  var isSupported = (eventName in el);
-		  if (!isSupported) {
-			el.setAttribute(eventName, 'return;');
-			isSupported = typeof el[eventName] == 'function';
-		  }
-		  el = null;
-		  return isSupported;
+			var el = document.createElement(TAGNAMES[eventName] || "div");
+			eventName = "on" + eventName;
+			var isSupported = (eventName in el);
+			if (!isSupported) {
+				el.setAttribute(eventName, "return;");
+				isSupported = typeof el[eventName] === "function";
+			}
+			el = null;
+			return isSupported;
 		}
 		return isEventSupported;
-	 })();
+	})();
 	
 	/*
 	mousewheel (deprecated) -> IE6.0, Chrome, Opera, Safari
@@ -67,8 +67,7 @@
 	MouseWheelEvent -> see mousewheel
 	MouseScrollEvent -> Firefox 3.5, Firefox Mobile 1.0
 	*/
-	$.each( ["keydown", "mousemove", "mousewheel", "DOMMouseScroll", "wheel", "mousedown", "touchstart", "touchmove"], function( i, event ) {
-		console.log(event+ ":" + isEventSupported(event));
+	/*$.each( ["keydown", "mousemove", "mousewheel", "DOMMouseScroll", "wheel", "mousedown", "touchstart", "touchmove"], function( i, event ) {
 		if (isEventSupported(event)) {
 		asyncTest( "Should clear timeout on " + event, function() {
 			expect( 3 );
@@ -78,7 +77,7 @@
 				equal( $( "#qunit-fixture" ).data( "idleTimer" ), "active", "State should be active" );
 			};
 
-			// trigger event every now and then to prevent going inactive
+			// trigger event every now and then to prevent going inactive
 			setTimeout( triggerEvent, 100 );
 			setTimeout( triggerEvent, 200 );
 			setTimeout( triggerEvent, 300 );
@@ -92,12 +91,32 @@
 		});
 		}
 	});
-
+	*/
+	
+	/*
+	The following functions are not being tested yet
+	$( document ).idleTimer("pause");
+	$( document ).idleTimer("resume");
+	$( document ).idleTimer("reset");
+	*/
+	
 	test( "Elapsed time is a number", function() {
 		expect( 2 );
 
 		equal( typeof $.idleTimer( "getElapsedTime" ), "number", "Elapsed time should be a number" );
 		equal( typeof $(document).idleTimer( "getElapsedTime" ), "number", "Elapsed time should be a number" );
+	});
+	test( "Remaining time is a number", function() {
+		expect( 2 );
+
+		equal( typeof $.idleTimer( "getRemainingTime" ), "number", "Remaining time should be a number" );
+		equal( typeof $(document).idleTimer( "getRemainingTime" ), "number", "Remaining time should be a number" );
+	});
+	test( "Last Active time is a number", function() {
+		expect( 2 );
+
+		equal( typeof $.idleTimer( "getLastActiveTime" ), "number", "Last Active time should be a number" );
+		equal( typeof $(document).idleTimer( "getLastActiveTime" ), "number", "Elapsed time should be a number" );
 	});
 
 }(jQuery));
