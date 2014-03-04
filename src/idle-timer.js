@@ -73,9 +73,9 @@
                 // not happening in Version 33.0.1750.117 m desktop win7               
                 if (obj.idle && (elapsed < obj.timeout)) {
                     obj.idle = false;
-                    clearTimeout($.idleTimer.tId);
+                    clearTimeout(obj.tId);
                     if (obj.enabled) {
-                        $.idleTimer.tId = setTimeout(toggleIdleState, obj.timeout);
+                        obj.tId = setTimeout(toggleIdleState, obj.timeout);
                     }
                     return;
                 }
@@ -88,13 +88,14 @@
                 // one time, so this prevents that initial time
                 if (!obj.idle && elapsed < 200) {
                     obj.idle = true;
+                    clearTimeout(obj.tId);
                     return;
                 }
 
                 // create a custom event, but first, store the new state on the element
                 // and then append that string to a namespace
                 var event = $.Event($.data(elem, "idleTimer", obj.idle ? "idle" : "active") + ".idleTimer");
-                $(elem).trigger(event);
+                $(elem).trigger(event, [elem,obj]);
             },
             /**
              * Handle event triggers
@@ -242,6 +243,8 @@
             return obj.remaining || remaining;
         } else if (firstParam === "getElapsedTime") {
             return (+new Date()) - obj.olddate;
+        } else if (firstParam === "getLastActiveTime") {
+            return obj.lastActive;
         }
 
 
