@@ -248,18 +248,6 @@
         }
 
 
-        /*
-            Remove old wheel events if wheel is supported.
-            To test for wheel this works in chrome/firefox:("onwheel" in document.createElement("div"))
-            >=IE9 wheel works, but as of IE11 you still cannot test for it properly, try:document.implementation.hasFeature("Events.wheel", "3.0")
-        */
-        var listenEvents = $.trim((opts.events + " ")).split(" ");
-        if ($.inArray("wheel", listenEvents) && (("onwheel" in document.createElement("div")) || document.implementation.hasFeature("Events.wheel", "3.0"))) {
-            listenEvents = $.grep(listenEvents, function (n) {
-                return (n !== "DOMMouseScroll" && n !== "mousewheel");
-            });
-        }
-
         /* (intentionally not documented)
          * Handles a user event indicating that the user isn't idle.
          * @param {Event} event A DOM2-normalized event object.
