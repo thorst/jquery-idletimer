@@ -80,18 +80,6 @@
                     return;
                 }
 
-                // Chrome 33.0.1750.14/Safari on ios7 7.0.4 triggers mousemove after programmatically updating 
-                // text area (thus turning active). ranges between 115 - 150 milliseconds after idle triggered. 
-                // When using normally your timing would have to be really good to respond
-                // in under 200 ms, and you would have to stop, as continuous activity will bypass this
-                // The mousemove fix in handleEvent fixes the looping of mousemove, but it still can occur
-                // one time, so this prevents that initial time
-                if (!obj.idle && elapsed < 200) {
-                    obj.idle = true;
-                    clearTimeout(obj.tId);
-                    return;
-                }
-
                 // create a custom event, but first, store the new state on the element
                 // and then append that string to a namespace
                 var event = $.Event($.data(elem, "idleTimer", obj.idle ? "idle" : "active") + ".idleTimer");
@@ -107,12 +95,26 @@
 
                 var obj = jqElem.data("idleTimerObj") || {};
 
-                //If this is a mousemove but the mouse hasnt moved
-                //This occurs:
-                //  Event mousemove always triggered always if using modal window (jquery for example, with overlay) on idle state.
-                //  When scrolling textarea to bottom (in demo) if textarea has enough content to scroll, and has focus, it will idle, then trigger mousemove
-                if (e.type === "mousemove" && e.pageX === obj.pageX && e.pageY === obj.pageY) {
-                    return;
+                /*
+                mousemove is kinda buggy, it can be triggered when it should be idle.
+                Typically is happening between 115 - 150 milliseconds after idle triggered.
+                @psyafter & @kaellis report "always triggered if using modal (jquery ui, with overlay)"
+                @thorst has similar issues on ios7 "after $.scrollTop() on text area"
+                */
+                if (e.type === "mousemove") {
+                    //If coord are same, it didnt move
+                    if (e.pageX === obj.pageX && e.pageY === obj.pageY) {
+                        return;
+                    }
+                    //If coord dont exist how could it move
+                    if (typeof e.pageX === "undefined" && typeof e.pageY === "undefined") {
+                        return;
+                    }
+                    // under 200 ms is hard to do, and you would have to stop, as continuous activity will bypass this
+                    var elapsed = (+new Date()) - obj.olddate;
+                    if (elapsed < 200) {
+                        return;
+                    }
                 }
 
                 //clear any existing timeout
