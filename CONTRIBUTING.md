@@ -14,7 +14,7 @@ See the [Why does grunt complain that PhantomJS isn't installed?](https://github
 ## Modifying the code
 First, ensure that you have the latest [Node.js](http://nodejs.org/) and [npm](http://npmjs.org/) installed.
 
-Test that grunt is installed globally by running `grunt --version` at the command-line.  If grunt isn't installed globally, run `npm install -g grunt` to install the latest version. _You may need to run `sudo npm install -g grunt`._
+Test that grunt is installed globally by running `grunt --version` at the command-line.  If grunt isn't installed globally, run `npm install -g grunt` or `npm install -g grunt-cli` to install the latest version. _You may need to run `sudo npm install -g grunt`._
 
 _Note that in Windows, you may have to run `grunt.cmd` instead of `grunt`._
 

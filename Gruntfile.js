@@ -77,7 +77,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
 
-  // Default task.
+  // Default task. 
   grunt.registerTask("default", ["jshint", "qunit", "concat", "uglify"]);
 
 };
