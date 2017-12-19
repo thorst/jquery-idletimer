@@ -281,6 +281,7 @@
             return obj.idle;
         }
 
+	/*
 	// Test via a getter in the options object to see if the passive property is accessed
         var supportsPassive = false;
         try {
@@ -291,15 +292,14 @@
             });
             window.addEventListener("test", null, Popts);
         } catch (e) {}
+	*/
 
         /* (intentionally not documented)
          * Handles a user event indicating that the user isn't idle. namespaced with internal idleTimer
          * @param {Event} event A DOM2-normalized event object.
          * @return {void}
          */
-        jqElem.on($.trim((opts.events + " ").split(" ").join("._idleTimer ")), function (e) {
-            handleEvent(e);
-        }, supportsPassive ? { passive: true } : false);
+        jqElem.on($.trim((opts.events + " ").split(" ").join("._idleTimer ")), handleEvent);
 
         if (opts.timerSyncId) {
             $(window).bind("storage", handleEvent);
