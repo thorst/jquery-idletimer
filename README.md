@@ -1,3 +1,23 @@
+## ⚠️ This project is no longer maintained
+
+This plugin was written for a different era of the web and has not been updated in some time.
+jQuery itself is largely unnecessary in 2026, and the patterns this library relied on — global
+event delegation, plugin namespacing, `$.fn` extensions — have been superseded by native browser
+APIs.
+
+If you need idle session detection today, check out the spiritual successor:
+
+### [idle-session](https://github.com/thorst/idle-session)
+
+A modern, zero-dependency rewrite built for vanilla JavaScript. No jQuery required.
+
+- Multi-tab awareness via the native `BroadcastChannel` API
+- Configurable heartbeat to keep the server session alive while the user is active
+- Graceful handling of transient network errors vs. hard auth failures (401/403)
+- Ships as a plain ES module — works with any framework or none at all
+
+
+
 jQuery Idle Timer Plugin 
 ========================
 
